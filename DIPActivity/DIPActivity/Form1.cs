@@ -12,6 +12,7 @@ namespace DIPActivity
     public partial class Form1 : Form
     {
         Bitmap loaded, processed;
+        Bitmap imageA, imageB, resultImage;
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -168,6 +169,56 @@ namespace DIPActivity
                 }
             }
             pictureBox2.Image = processed;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            openFileDialog2.ShowDialog();
+        }
+
+        private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
+        {
+            imageB = new Bitmap(openFileDialog2.FileName);
+            pictureBox1.Image = imageB;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            openFileDialog3.ShowDialog();
+        }
+
+        private void openFileDialog3_FileOk(object sender, CancelEventArgs e)
+        {
+            imageA = new Bitmap(openFileDialog3.FileName);
+            pictureBox2.Image = imageA;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            resultImage = new Bitmap(imageB.Width, imageB.Height);
+            Color mygreen = Color.FromArgb(0, 0, 255);
+            int greygreen = (mygreen.R + mygreen.G + mygreen.B) / 3;
+            int threshold = 5;
+
+            for (int x = 0; x < imageB.Width; x++)
+            {
+                for (int y = 0; y < imageB.Height; y++)
+                {
+                    Color pixel = imageB.GetPixel(x, y);
+                    Color backpixel = imageA.GetPixel(x, y);
+                    int grey = (pixel.R + pixel.G + pixel.B) / 3;
+                    int subtractvalue = Math.Abs(grey - greygreen);
+                    if (subtractvalue > threshold)
+                    {
+                        resultImage.SetPixel(x, y, pixel); 
+                    }
+                    else
+                    {
+                        resultImage.SetPixel(x, y, backpixel);
+                    }
+                }
+            }
+            pictureBox3.Image = resultImage;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
