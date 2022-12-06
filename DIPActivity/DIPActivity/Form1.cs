@@ -221,6 +221,14 @@ namespace DIPActivity
             pictureBox3.Image = resultImage;
         }
 
+        private void subtractToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button1.Visible = true;
+            button2.Visible = true;
+            button3.Visible = true;
+            pictureBox3.Visible = true;
+        }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.Title = "Save File";
@@ -241,6 +249,10 @@ namespace DIPActivity
         public Form1()
         {
             InitializeComponent();
+            button1.Visible = false;
+            button2.Visible = false;
+            button3.Visible = false;
+            pictureBox3.Visible= false;
         }
     }
 }
