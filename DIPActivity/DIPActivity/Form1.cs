@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WebCamLib;
 
 namespace DIPActivity
 {
@@ -13,6 +14,7 @@ namespace DIPActivity
     {
         Bitmap loaded, processed;
         Bitmap imageA, imageB, resultImage;
+        DeviceManager[] webcam;
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -226,7 +228,13 @@ namespace DIPActivity
             button1.Visible = true;
             button2.Visible = true;
             button3.Visible = true;
+            button4.Visible = true;
             pictureBox3.Visible = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -252,6 +260,7 @@ namespace DIPActivity
             button1.Visible = false;
             button2.Visible = false;
             button3.Visible = false;
+            button4.Visible = false;
             pictureBox3.Visible= false;
         }
     }
