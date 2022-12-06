@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,6 +51,12 @@
             this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.liveCamProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.subtractToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.button7 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -60,7 +67,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.dIPToolStripMenuItem});
+            this.dIPToolStripMenuItem,
+            this.liveCamProcessToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1359, 24);
@@ -223,19 +231,71 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(161, 458);
+            this.button4.Location = new System.Drawing.Point(23, 462);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(112, 28);
             this.button4.TabIndex = 7;
-            this.button4.Text = "Select WebCam";
+            this.button4.Text = "Get Cam";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(161, 462);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(112, 28);
+            this.button5.TabIndex = 8;
+            this.button5.Text = "Show";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(322, 462);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(112, 28);
+            this.button6.TabIndex = 9;
+            this.button6.Text = "Close";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // liveCamProcessToolStripMenuItem
+            // 
+            this.liveCamProcessToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subtractToolStripMenuItem1});
+            this.liveCamProcessToolStripMenuItem.Name = "liveCamProcessToolStripMenuItem";
+            this.liveCamProcessToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
+            this.liveCamProcessToolStripMenuItem.Text = "Live Cam Process";
+            // 
+            // subtractToolStripMenuItem1
+            // 
+            this.subtractToolStripMenuItem1.Name = "subtractToolStripMenuItem1";
+            this.subtractToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.subtractToolStripMenuItem1.Text = "Subtract";
+            this.subtractToolStripMenuItem1.Click += new System.EventHandler(this.subtractToolStripMenuItem1_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(1078, 458);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(112, 28);
+            this.button7.TabIndex = 10;
+            this.button7.Text = "Subtract Live Cam";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1359, 502);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -281,6 +341,12 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem liveCamProcessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem subtractToolStripMenuItem1;
+        private System.Windows.Forms.Button button7;
     }
 }
 

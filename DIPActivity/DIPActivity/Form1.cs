@@ -14,7 +14,16 @@ namespace DIPActivity
     {
         Bitmap loaded, processed;
         Bitmap imageA, imageB, resultImage;
-        DeviceManager[] webcam;
+
+        Color pixel, greyscale, invert, sepia;
+        int grey;
+
+        Bitmap b;
+        Device[] cams;
+        IDataObject data;
+        Image bmap;
+
+
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -34,9 +43,9 @@ namespace DIPActivity
             {
                 for (int y = 0; y < loaded.Height; y++)
                 {
-                    Color pixel = loaded.GetPixel(x, y);
+                    pixel = loaded.GetPixel(x, y);
                     int grey = (pixel.R + pixel.G + pixel.B) / 3;
-                    Color greyscale = Color.FromArgb(grey, grey, grey);
+                    greyscale = Color.FromArgb(grey, grey, grey);
                     processed.SetPixel(x, y, greyscale);
                 }
             }
@@ -50,7 +59,7 @@ namespace DIPActivity
             {
                 for (int y = 0; y < loaded.Height; y++)
                 {
-                    Color pixel = loaded.GetPixel(x, y);
+                    pixel = loaded.GetPixel(x, y);
                     processed.SetPixel(x, y, pixel);
                 }
             }
@@ -64,8 +73,8 @@ namespace DIPActivity
             {
                 for (int y = 0; y < loaded.Height; y++)
                 {
-                    Color pixel = loaded.GetPixel(x, y);
-                    Color invert = Color.FromArgb(255 - pixel.R, 255 - pixel.G, 255 - pixel.B);
+                    pixel = loaded.GetPixel(x, y);
+                    invert = Color.FromArgb(255 - pixel.R, 255 - pixel.G, 255 - pixel.B);
                     processed.SetPixel(x, y, invert);
                 }
             }
@@ -74,16 +83,14 @@ namespace DIPActivity
 
         private void histogramToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Color pixel;
-
             //Grayscale Convertion;
             for (int x = 0; x < loaded.Width; x++)
             {
                 for (int y = 0; y < loaded.Height; y++)
                 {
                     pixel = loaded.GetPixel(x, y);
-                    int grey = (int)((pixel.R + pixel.G + pixel.B) / 3);
-                    Color greyscale = Color.FromArgb(grey, grey, grey);
+                    grey = (int)((pixel.R + pixel.G + pixel.B) / 3);
+                    greyscale = Color.FromArgb(grey, grey, grey);
                     loaded.SetPixel(x, y, greyscale);
                 }
             }
@@ -127,7 +134,7 @@ namespace DIPActivity
             {
                 for (int y = 0; y < loaded.Height; y++)
                 {
-                    Color pixel = loaded.GetPixel(x, y);
+                    pixel = loaded.GetPixel(x, y);
 
                     //extract pixel component RGB
                     int r = pixel.R;
@@ -166,7 +173,7 @@ namespace DIPActivity
                     {
                         b = tb;
                     }
-                    Color sepia = Color.FromArgb(r, g, b);
+                    sepia = Color.FromArgb(r, g, b);
                     processed.SetPixel(x, y, sepia);
                 }
             }
@@ -193,6 +200,64 @@ namespace DIPActivity
         {
             imageA = new Bitmap(openFileDialog3.FileName);
             pictureBox2.Image = imageA;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            cams[0].ShowWindow(pictureBox1);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            cams[0].Stop();
+        }
+
+        private void subtractToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            button1.Visible = false;
+            button2.Visible = true;
+            button3.Visible = false;
+            button4.Visible = true;
+            button5.Visible = true;
+            button6.Visible = true;
+            button7.Visible = true;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            cams[0].Sendmessage();
+            data = Clipboard.GetDataObject();
+            bmap = (Image)(data.GetData("System.Drawing.Bitmap", true));
+            b = new Bitmap(bmap);
+            resultImage = new Bitmap(b.Width, b.Height);
+            Color mygreen = Color.FromArgb(0, 0, 255);
+            int greygreen = (mygreen.R + mygreen.G + mygreen.B) / 3;
+            int threshold = 5;
+
+            for (int x = 0; x < b.Width; x++)
+            {
+                for (int y = 0; y < b.Height; y++)
+                {
+                    Color pixel = b.GetPixel(x, y);
+                    Color backpixel = imageA.GetPixel(x, y);
+                    int grey = (pixel.R + pixel.G + pixel.B) / 3;
+                    int subtractvalue = Math.Abs(grey - greygreen);
+                    if (subtractvalue > threshold)
+                    {
+                        resultImage.SetPixel(x, y, pixel);
+                    }
+                    else
+                    {
+                        resultImage.SetPixel(x, y, backpixel);
+                    }
+                }
+            }
+            pictureBox3.Image = resultImage;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -228,13 +293,12 @@ namespace DIPActivity
             button1.Visible = true;
             button2.Visible = true;
             button3.Visible = true;
-            button4.Visible = true;
             pictureBox3.Visible = true;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            cams = DeviceManager.GetAllDevices();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -245,13 +309,7 @@ namespace DIPActivity
 
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            if (saveFileDialog1.FileName != "")
-            {
-                // Saves the Image via a FileStream created by the OpenFile method.
-                System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
-                processed.Save(fs,System.Drawing.Imaging.ImageFormat.Bmp);
-                fs.Close();
-            }
+            processed.Save(saveFileDialog1.FileName);
         }
 
         public Form1()
@@ -261,6 +319,9 @@ namespace DIPActivity
             button2.Visible = false;
             button3.Visible = false;
             button4.Visible = false;
+            button5.Visible = false;
+            button6.Visible = false;
+            button7.Visible = false;
             pictureBox3.Visible= false;
         }
     }
